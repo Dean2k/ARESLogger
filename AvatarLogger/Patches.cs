@@ -96,9 +96,9 @@ namespace Patches
                 case 210:
                     return true;
 
-                case 253:
+                case 223:
                     {
-                        // patched by LargestBoi
+                        // patched by LargestBoi (seems like VRC changed this to case223 Shrek)
                         try
                         {
                             foreach (VRCPlayer player in UnityEngine.Object.FindObjectsOfType<VRCPlayer>())
