@@ -1,73 +1,73 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
 using HarmonyLib;
+using Newtonsoft.Json;
 
 #pragma warning disable IDE0044
 
-namespace ComfyUtils
+namespace AvatarLogger
 {
     public class ConfigHelper<T> where T : class
     {
-        private HarmonyLib.Harmony HarmonyInstance = new HarmonyLib.Harmony($"ConfigHelper_[{typeof(T)}]");
-        private static ConfigHelper<T> Instance;
-        public event Action OnConfigUpdated;
-        private string ConfigPath;
-        private bool SaveOnUpdate;
+        private static ConfigHelper<T> _instance;
+        private readonly string _configPath;
+        private readonly HarmonyLib.Harmony _harmonyInstance = new HarmonyLib.Harmony($"ConfigHelper_[{typeof(T)}]");
+        private readonly bool _saveOnUpdate;
         public T Config;
+
         public ConfigHelper(string configPath, bool saveOnUpdate = false)
         {
-            Instance = this;
-            ConfigPath = configPath;
-            SaveOnUpdate = saveOnUpdate;
+            _instance = this;
+            _configPath = configPath;
+            _saveOnUpdate = saveOnUpdate;
 
-            if (!File.Exists(ConfigPath))
-            {
-                File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Activator.CreateInstance(typeof(T)), Formatting.Indented));
-            }
-            Config = JsonConvert.DeserializeObject<T>(File.ReadAllText(ConfigPath));
-            File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
+            if (!File.Exists(_configPath))
+                File.WriteAllText(_configPath,
+                    JsonConvert.SerializeObject(Activator.CreateInstance(typeof(T)), Formatting.Indented));
+            Config = JsonConvert.DeserializeObject<T>(File.ReadAllText(_configPath));
+            File.WriteAllText(_configPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
 
-            FileSystemWatcher watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath), Path.GetFileName(ConfigPath))
+            var watcher = new FileSystemWatcher(Path.GetDirectoryName(_configPath), Path.GetFileName(_configPath))
             {
                 NotifyFilter = NotifyFilters.LastWrite,
                 EnableRaisingEvents = true
             };
             watcher.Changed += FileUpdated;
 
-            foreach (PropertyInfo property in typeof(T).GetProperties())
-            {
-                HarmonyInstance.Patch(property.GetSetMethod(),
-                postfix: new HarmonyMethod(GetType().GetMethod(nameof(PropertyUpdated), BindingFlags.NonPublic | BindingFlags.Static)));
-            }
+            foreach (var property in typeof(T).GetProperties())
+                _harmonyInstance.Patch(property.GetSetMethod(),
+                    postfix: new HarmonyMethod(GetType().GetMethod(nameof(PropertyUpdated),
+                        BindingFlags.NonPublic | BindingFlags.Static)));
         }
+
+        public event Action OnConfigUpdated;
+
         private void FileUpdated(object obj, FileSystemEventArgs args)
         {
-            T FileConfig = JsonConvert.DeserializeObject<T>(File.ReadAllText(ConfigPath));
-            foreach (PropertyInfo property in FileConfig.GetType().GetProperties())
+            var fileConfig = JsonConvert.DeserializeObject<T>(File.ReadAllText(_configPath));
+            foreach (var property in fileConfig.GetType().GetProperties())
             {
-                PropertyInfo property0 = Config.GetType().GetProperty(nameof(property.Name));
-                if (property0 == null)
+                var property0 = Config.GetType().GetProperty(nameof(property.Name));
+                if (property0 == null) continue;
+                if (property.GetValue(fileConfig) != property0.GetValue(Config))
                 {
-                    continue;
-                }
-                if (property.GetValue(FileConfig) != property0.GetValue(Config))
-                {
-                    Config = FileConfig;
+                    Config = fileConfig;
                     OnConfigUpdated?.Invoke();
                     break;
                 }
             }
         }
+
         private static void PropertyUpdated()
         {
-            if (Instance.SaveOnUpdate)
-            {
-                Instance.SaveConfig();
-            }
-            Instance.OnConfigUpdated?.Invoke();
+            if (_instance._saveOnUpdate) _instance.SaveConfig();
+            _instance.OnConfigUpdated?.Invoke();
         }
-        public void SaveConfig() => File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
+
+        public void SaveConfig()
+        {
+            File.WriteAllText(_configPath, JsonConvert.SerializeObject(Config, Formatting.Indented));
+        }
     }
 }

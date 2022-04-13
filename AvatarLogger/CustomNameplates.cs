@@ -1,58 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using VRC;
 
 namespace AvatarLogger
 {
     public class CustomNameplate : MonoBehaviour, IDisposable
     {
-        public VRC.Player player;
-        private TextMeshProUGUI statsText;
-        private ImageThreeSlice background;
+        private ImageThreeSlice _background;
+        private TextMeshProUGUI _statsText;
+        public Player Player;
 
         public CustomNameplate(IntPtr ptr) : base(ptr)
         {
         }
 
-        void Start()
+        public void Dispose()
         {
-            if (this.enabled)
+            _statsText.text = null;
+            _statsText.OnDisable();
+            _background.OnDisable();
+            enabled = false;
+        }
+
+        private void Start()
+        {
+            if (enabled)
             {
-                Transform stats = UnityEngine.Object.Instantiate<Transform>(this.gameObject.transform.Find("Contents/Quick Stats"), this.gameObject.transform.Find("Contents"));
-                stats.parent = this.gameObject.transform.Find("Contents");
+                var stats = Instantiate(gameObject.transform.Find("Contents/Quick Stats"),
+                    gameObject.transform.Find("Contents"));
+                stats.parent = gameObject.transform.Find("Contents");
                 stats.gameObject.SetActive(true);
-                statsText = stats.Find("Trust Text").GetComponent<TextMeshProUGUI>();
-                statsText.color = Color.white;
+                _statsText = stats.Find("Trust Text").GetComponent<TextMeshProUGUI>();
+                _statsText.color = Color.white;
                 stats.Find("Trust Icon").gameObject.SetActive(false);
                 stats.Find("Performance Icon").gameObject.SetActive(false);
                 stats.Find("Performance Text").gameObject.SetActive(false);
                 stats.Find("Friend Anchor Stats").gameObject.SetActive(false);
 
-                background = this.gameObject.transform.Find("Contents/Main/Background").GetComponent<ImageThreeSlice>();
+                _background = gameObject.transform.Find("Contents/Main/Background").GetComponent<ImageThreeSlice>();
 
-                background._sprite = VRCPlayer.field_Internal_Static_VRCPlayer_0.transform.Find("Player Nameplate/Canvas/Nameplate/Contents/Main/Glow").GetComponent<ImageThreeSlice>()._sprite;
-                background.color = Color.black;
+                _background._sprite = VRCPlayer.field_Internal_Static_VRCPlayer_0.transform
+                    .Find("Player Nameplate/Canvas/Nameplate/Contents/Main/Glow").GetComponent<ImageThreeSlice>()
+                    ._sprite;
+                _background.color = Color.black;
             }
         }
 
-        void Update()
+        private void Update()
         {
-            if (this.enabled)
-            {
-                statsText.text = $"[{player.GetPlatform()}] | " + $"[{ player.GetAvatarStatus()}]";
-            }
-        }
-
-        public void Dispose()
-        {
-            statsText.text = null;
-            statsText.OnDisable();
-            background.OnDisable();
-            this.enabled = false;
+            if (enabled) _statsText.text = $"[{Player.GetPlatform()}] | " + $"[{Player.GetAvatarStatus()}]";
         }
     }
 }

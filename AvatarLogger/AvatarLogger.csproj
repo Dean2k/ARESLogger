@@ -99,6 +99,10 @@
     <Reference Include="VRCCore-Standalone">
       <HintPath>..\..\AvatarLogger\DLLs\VRCCore-Standalone.dll</HintPath>
     </Reference>
+    <Reference Include="VRCSDK3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDK3.dll</HintPath>
+    </Reference>
     <Reference Include="VRCSDKBase, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRCSDKBase.dll</HintPath>
@@ -110,12 +114,10 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="CustomNameplates.cs" />
-    <Compile Include="Events.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RenderElement.cs" />
     <Compile Include="Wrapper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,74 +8,12 @@ using System.Threading;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Net;
-using static Buttons.Buttons;
-using static AvatarLogger.Main;
-//Contains all basic functions reqires for ARES to operate
-namespace BaseFuncs
-{
-    internal static class BaseFuncs
-    {
+using static AvatarLogger.Buttons;
 
-        internal class Serialize
-        {
-            public static byte[] GetByteArray(int sizeInKb)
-            {
-                System.Random random = new System.Random();
-                byte[] array = new byte[sizeInKb * 1024];
-                random.NextBytes(array);
-                return array;
-            }
-            public static UnityEngine.Object ByteArrayToObjectUnity2(byte[] arrBytes)
-            {
-                Il2CppStructArray<byte> il2CppStructArray = new Il2CppStructArray<byte>((long)arrBytes.Length);
-                arrBytes.CopyTo(il2CppStructArray, 0);
-                Il2CppSystem.Object @object = new Il2CppSystem.Object(il2CppStructArray.Pointer);
-                return new UnityEngine.Object(@object.Pointer);
-            }
-            public static byte[] ToByteArray(Il2CppSystem.Object obj)
-            {
-                if (obj == null) return null;
-                var bf = new Il2CppSystem.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                var ms = new Il2CppSystem.IO.MemoryStream();
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-            public static byte[] ToByteArray(object obj)
-            {
-                if (obj == null) return null;
-                var bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                var ms = new System.IO.MemoryStream();
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-            public static T FromByteArray<T>(byte[] data)
-            {
-                if (data == null) return default(T);
-                var bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                using (var ms = new System.IO.MemoryStream(data))
-                {
-                    object obj = bf.Deserialize(ms);
-                    return (T)obj;
-                }
-            }
-            public static T IL2CPPFromByteArray<T>(byte[] data)
-            {
-                if (data == null) return default(T);
-                var bf = new Il2CppSystem.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                var ms = new Il2CppSystem.IO.MemoryStream(data);
-                object obj = bf.Deserialize(ms);
-                return (T)obj;
-            }
-            public static T FromIL2CPPToManaged<T>(Il2CppSystem.Object obj)
-            {
-                return FromByteArray<T>(ToByteArray(obj));
-            }
-            public static T FromManagedToIL2CPP<T>(object obj)
-            {
-                return IL2CPPFromByteArray<T>(ToByteArray(obj));
-            }
-        }
-        //Funtion to load a sprite from an image on the disk provided a string/path
+namespace AvatarLogger
+{
+    public static class BaseFunctions
+    {
         internal static Sprite LoadSpriteFromDisk(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -97,8 +35,8 @@ namespace BaseFuncs
             sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
             return sprite;
         }
-        //Function to get the SHA of a particular file
-        public static string SHA256CheckSum(string filePath)
+
+        public static string Sha256CheckSum(string filePath)
         {
             using (var hash = SHA256.Create())
             {
@@ -108,20 +46,20 @@ namespace BaseFuncs
                 }
             }
         }
-        //Function to handle the queue created
-        public static void HandleQueue(Dictionary<string, string>  Queue)
+
+        public static void HandleQueue(Dictionary<string, string>  queue)
         {
-            foreach (KeyValuePair<string, string> pair in Queue)
+            foreach (KeyValuePair<string, string> pair in queue)
             {
                 string name = pair.Key.Substring(pair.Key.LastIndexOf('\\') + 1);
                 if (File.Exists(pair.Key))
                 {
-                    var OldHash = SHA256CheckSum(pair.Key);
+                    var oldHash = Sha256CheckSum(pair.Key);
                     DownloadPlugin(pair);
-                    if (SHA256CheckSum(pair.Key) != OldHash)
+                    if (Sha256CheckSum(pair.Key) != oldHash)
                     {
                         MelonLogger.Msg($"Updated: {name}! Restarting VRC...");
-                        RVRC(false);
+                        RestartVrChat(false);
                     }
                 }
                 else
@@ -129,11 +67,10 @@ namespace BaseFuncs
                     MelonLogger.Msg($"{name} Not Found! Loading...");
                     DownloadPlugin(pair);
                     MelonLogger.Msg($"{name} Installed! Restarting VRC...");
-                    RVRC(false);
+                    RestartVrChat(false);
                 }
             }
         }
-        //Downloads the files from the queue
         public static void DownloadPlugin(KeyValuePair<string, string> pair)
         {
             using (WebClient client = new WebClient())
