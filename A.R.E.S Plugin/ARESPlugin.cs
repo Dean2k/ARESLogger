@@ -31,7 +31,7 @@ namespace ARESPlugin
             if (!skipUpdates)
             {
                 _files.Add($"{MelonHandler.ModsDirectory}\\AvatarLogger.dll", "https://github.com/Dean2k/A.R.E.S/releases/latest/download/AvatarLogger.dll");
-                _files.Add($"{MelonUtils.GameDirectory}\\ReMod.Core.dll", "https://github.com/Dean2k/ReModCE/releases/latest/download/ReMod.Core.dll");
+                _files.Add($"{MelonUtils.GameDirectory}\\ReModAres.Core.dll", "https://github.com/Dean2k/ReModCE/releases/latest/download/ReModAres.Core.dll");
                 _files.Add($"{MelonUtils.GameDirectory}\\ARESLogo.png", "https://github.com/Dean2k/A.R.E.S/releases/latest/download/ARESLogo.png");
 
                 foreach (KeyValuePair<string, string> pair in _files)
