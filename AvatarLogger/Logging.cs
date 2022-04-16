@@ -22,104 +22,104 @@ namespace AvatarLogger
 
         public static void ExecuteLog(Player player, bool aviChange = false)
         {
+            if (player == null) return;
+            if (player.prop_ApiAvatar_0 == null) return;
             ApiAvatar apiAvatar = player.prop_ApiAvatar_0;
-            if (Main.Config.LogAvatars)
-            {
-                if (!Main.Config.LogPublicAvatars)
-                    if (apiAvatar.releaseStatus == "public")
-                    {
-                        if (Main.Config.ConsoleError && !aviChange)
-                            MelonLogger.Msg(
-                                $"Avatar {apiAvatar.name} was not logged, you have log public avatars disabled!");
-                        return;
-                    }
-
-                if (!Main.Config.LogPrivateAvatars)
-                    if (apiAvatar.releaseStatus == "private")
-                    {
-                        if (Main.Config.ConsoleError && !aviChange)
-                            MelonLogger.Msg(
-                                $"Avatar {apiAvatar.name} was not logged, you have log private avatars disabled!");
-                        return;
-                    }
-
-                if (!Main.Config.LogOwnAvatars)
-                    if (APIUser.CurrentUser.id == apiAvatar.id)
-                        if (MyLastAvatar != apiAvatar.id)
-                        {
-                            if (Main.Config.ConsoleError && !aviChange)
-                                MelonLogger.Msg(
-                                    $"Your avatar {apiAvatar.name} was not logged, you have log own avatars disabled!");
-                            return;
-                        }
-
-                if (!Main.Config.LogFriendsAvatars)
-                    if (FriendIDs.Contains(apiAvatar.authorId))
-                    {
-                        if (Main.Config.ConsoleError && !aviChange)
-                            MelonLogger.Msg(
-                                $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
-                        return;
-                    }
-
-                var AvatarFile = "GUI\\Log.txt";
-                var AvatarFileIds = "GUI\\LogIds.txt";
-                if (!File.Exists(AvatarFile))
-                    File.AppendAllText(AvatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
-
-                if (!File.Exists(AvatarFileIds))
-                    File.AppendAllText(AvatarFileIds, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
-                if (!HasAvatarId(AvatarFileIds, apiAvatar.id))
+            if (!Main.Config.LogAvatars) return;
+            if (!Main.Config.LogPublicAvatars)
+                if (apiAvatar.releaseStatus == "public")
                 {
-                    if (Main.Config.LogToConsole)
-                        if (aviChange)
-                            MelonLogger.Msg($"{player.prop_APIUser_0.displayName} changed into ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
-                    File.AppendAllText(AvatarFileIds, apiAvatar.id + "\n");
-                    File.AppendAllLines(AvatarFile, new[]
-                    {
-                        $"Time Detected:{((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds().ToString()}",
-                        $"Avatar ID:{apiAvatar.id}",
-                        $"Avatar Name:{apiAvatar.name}",
-                        $"Avatar Description:{apiAvatar.description}",
-                        $"Author ID:{apiAvatar.authorId}",
-                        $"Author Name:{apiAvatar.authorName}"
-                    });
-                    File.AppendAllLines(AvatarFile, new[]
-                    {
-                        $"PC Asset URL:{apiAvatar.assetUrl}",
-                        "Quest Asset URL: None",
-                        $"Image URL:{apiAvatar.imageUrl}",
-                        $"Thumbnail URL:{apiAvatar.thumbnailImageUrl}",
-                        $"Unity Version:{apiAvatar.unityVersion}",
-                        $"Release Status:{apiAvatar.releaseStatus}"
-                    });
-                    var rs = apiAvatar.releaseStatus;
-                    switch (rs)
-                    {
-                        case "public":
-                            Main.Pub += 1;
-                            break;
-                        case "private":
-                            Main.Pri += 1;
-                            break;
-                    }
-
-                    if (apiAvatar.tags.Count > 0)
-                    {
-                        var builder = new StringBuilder();
-                        builder.Append("Tags: ");
-                        foreach (var tag in apiAvatar.tags) builder.Append($"{tag},");
-                        File.AppendAllText(AvatarFile, builder.ToString().Remove(builder.ToString().LastIndexOf(",")));
-                    }
-                    else
-                    {
-                        File.AppendAllText(AvatarFile, "Tags: None");
-                    }
-
-                    if (Main.Config.LogToConsole)
-                        MelonLogger.Msg($"Logged: {player.prop_APIUser_0.displayName}'s avatar ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
-                    File.AppendAllText(AvatarFile, "\n\n");
+                    if (Main.Config.ConsoleError && !aviChange)
+                        MelonLogger.Msg(
+                            $"Avatar {apiAvatar.name} was not logged, you have log public avatars disabled!");
+                    return;
                 }
+
+            if (!Main.Config.LogPrivateAvatars)
+                if (apiAvatar.releaseStatus == "private")
+                {
+                    if (Main.Config.ConsoleError && !aviChange)
+                        MelonLogger.Msg(
+                            $"Avatar {apiAvatar.name} was not logged, you have log private avatars disabled!");
+                    return;
+                }
+
+            if (!Main.Config.LogOwnAvatars)
+                if (APIUser.CurrentUser.id == apiAvatar.id)
+                    if (MyLastAvatar != apiAvatar.id)
+                    {
+                        if (Main.Config.ConsoleError && !aviChange)
+                            MelonLogger.Msg(
+                                $"Your avatar {apiAvatar.name} was not logged, you have log own avatars disabled!");
+                        return;
+                    }
+
+            if (!Main.Config.LogFriendsAvatars)
+                if (FriendIDs.Contains(apiAvatar.authorId))
+                {
+                    if (Main.Config.ConsoleError && !aviChange)
+                        MelonLogger.Msg(
+                            $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
+                    return;
+                }
+
+            var AvatarFile = "GUI\\Log.txt";
+            var AvatarFileIds = "GUI\\LogIds.txt";
+            if (!File.Exists(AvatarFile))
+                File.AppendAllText(AvatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+
+            if (!File.Exists(AvatarFileIds))
+                File.AppendAllText(AvatarFileIds, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+            if (!HasAvatarId(AvatarFileIds, apiAvatar.id))
+            {
+                if (Main.Config.LogToConsole)
+                    if (aviChange)
+                        MelonLogger.Msg($"{player.prop_APIUser_0.displayName} changed into ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
+                File.AppendAllText(AvatarFileIds, apiAvatar.id + "\n");
+                File.AppendAllLines(AvatarFile, new[]
+                {
+                    $"Time Detected:{((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds().ToString()}",
+                    $"Avatar ID:{apiAvatar.id}",
+                    $"Avatar Name:{apiAvatar.name}",
+                    $"Avatar Description:{apiAvatar.description}",
+                    $"Author ID:{apiAvatar.authorId}",
+                    $"Author Name:{apiAvatar.authorName}"
+                });
+                File.AppendAllLines(AvatarFile, new[]
+                {
+                    $"PC Asset URL:{apiAvatar.assetUrl}",
+                    "Quest Asset URL: None",
+                    $"Image URL:{apiAvatar.imageUrl}",
+                    $"Thumbnail URL:{apiAvatar.thumbnailImageUrl}",
+                    $"Unity Version:{apiAvatar.unityVersion}",
+                    $"Release Status:{apiAvatar.releaseStatus}"
+                });
+                var rs = apiAvatar.releaseStatus;
+                switch (rs)
+                {
+                    case "public":
+                        Main.Pub += 1;
+                        break;
+                    case "private":
+                        Main.Pri += 1;
+                        break;
+                }
+
+                if (apiAvatar.tags.Count > 0)
+                {
+                    var builder = new StringBuilder();
+                    builder.Append("Tags: ");
+                    foreach (var tag in apiAvatar.tags) builder.Append($"{tag},");
+                    File.AppendAllText(AvatarFile, builder.ToString().Remove(builder.ToString().LastIndexOf(",")));
+                }
+                else
+                {
+                    File.AppendAllText(AvatarFile, "Tags: None");
+                }
+
+                if (Main.Config.LogToConsole)
+                    MelonLogger.Msg($"Logged: {player.prop_APIUser_0.displayName}'s avatar ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
+                File.AppendAllText(AvatarFile, "\n\n");
             }
         }
 
@@ -135,10 +135,8 @@ namespace AvatarLogger
 
         public static void ExecuteLogWorld(ApiWorld worldTable)
         {
-            //If avatar loggin is enabled
             if (Main.Config.LogWorlds)
             {
-                //Locate the log file
                 var avatarFile = "GUI\\LogWorld.txt";
                 var avatarFileIds = "GUI\\LogWorldIds.txt";
                 if (!File.Exists(avatarFile))
