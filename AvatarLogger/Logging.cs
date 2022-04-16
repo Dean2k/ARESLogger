@@ -45,7 +45,7 @@ namespace AvatarLogger
                 }
 
             if (!Main.Config.LogOwnAvatars)
-                if (APIUser.CurrentUser.id == apiAvatar.id)
+                if (APIUser.CurrentUser.id == apiAvatar.authorId)
                     if (MyLastAvatar != apiAvatar.id)
                     {
                         if (Main.Config.ConsoleError && !aviChange)
