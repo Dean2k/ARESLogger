@@ -51,7 +51,7 @@ namespace AvatarLogger
                         new Random().Next(0, 9),
                         new Random().Next(0, 9),
                         new Random().Next(0, 9)
-                    }))).Select(delegate(byte x)
+                    }))).Select(delegate (byte x)
                 {
                     byte b = x;
                     return b.ToString("x2");

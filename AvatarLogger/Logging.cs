@@ -88,7 +88,7 @@ namespace AvatarLogger
                 File.AppendAllLines(AvatarFile, new[]
                 {
                     $"PC Asset URL:{apiAvatar.assetUrl}",
-                    "Quest Asset URL: None",
+                    "Quest Asset URL:None",
                     $"Image URL:{apiAvatar.imageUrl}",
                     $"Thumbnail URL:{apiAvatar.thumbnailImageUrl}",
                     $"Unity Version:{apiAvatar.unityVersion}",
