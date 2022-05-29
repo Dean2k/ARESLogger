@@ -183,8 +183,8 @@ namespace AvatarLogger
         
         public static void ChangeAvatar()
         {
-            Regex avatar = new Regex("avtr_[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}");
-            if (avatar.IsMatch(Clipboard.GetText()))
+            Regex Avatar = new Regex("avtr_[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}");
+            if (Avatar.IsMatch(Clipboard.GetText()))
             {
                 new ApiAvatar { id = Clipboard.GetText() }.Get(new Action<ApiContainer>(x =>
                 {
