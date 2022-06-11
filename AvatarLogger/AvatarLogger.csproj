@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReModCE\3rdparty\ml\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\AvatarLogger\DLLs\Assembly-CSharp.dll</HintPath>
     </Reference>

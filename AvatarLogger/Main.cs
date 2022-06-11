@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 //using System.Data.SQLite;
 //Melon mod information
 [assembly: MelonGame("VRChat")]
-[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "4.2.5", "By ShrekamusChrist, LargestBoi")]
+[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "4.2.6", "By ShrekamusChrist, LargestBoi")]
 [assembly: MelonColor(ConsoleColor.Yellow)]
 
 namespace AvatarLogger
@@ -40,6 +40,16 @@ namespace AvatarLogger
         
         public override void OnApplicationStart()
         {
+            string[] arguments = Environment.GetCommandLineArgs();
+            foreach (string item in arguments)
+            {
+                if (item.ToLower() == "DaddyUwU")
+                {
+                    MelonLogger.Msg("Skipping loading of Avatar logger (Application bot)");
+                    return;
+                }
+            }
+
             Helper = new ConfigHelper<Config>($"{MelonUtils.UserDataDirectory}\\ARESConfig.json", true);
             
             if (Config.AutoUpdate)
