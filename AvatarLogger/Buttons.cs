@@ -1,7 +1,7 @@
 ﻿using MelonLoader;
-using ReModAres.Core.Managers;
-using ReModAres.Core.UI.QuickMenu;
-using ReModAres.Core.UI.Wings;
+using SerpentCore.Core.Managers;
+using SerpentCore.Core.UI.QuickMenu;
+using SerpentCore.Core.UI.Wings;
 using System;
 using System.Diagnostics;
 using System.IO;

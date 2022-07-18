@@ -1,4 +1,4 @@
-﻿using ReModAres.Core.VRChat;
+﻿using SerpentCore.Core.VRChat;
 using VRC;
 using VRC.Core;
 using VRC.SDKBase;
