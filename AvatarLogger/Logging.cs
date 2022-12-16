@@ -63,8 +63,8 @@ namespace AvatarLogger
                     return;
                 }
 
-            var AvatarFile = "GUI\\Log.txt";
-            var AvatarFileIds = "GUI\\LogIds.txt";
+            var AvatarFile = "Log.txt";
+            var AvatarFileIds = "LogIds.txt";
             if (!File.Exists(AvatarFile))
                 File.AppendAllText(AvatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
 
@@ -137,8 +137,8 @@ namespace AvatarLogger
         {
             if (Main.Config.LogWorlds)
             {
-                var avatarFile = "GUI\\LogWorld.txt";
-                var avatarFileIds = "GUI\\LogWorldIds.txt";
+                var avatarFile = "LogWorld.txt";
+                var avatarFileIds = "LogWorldIds.txt";
                 if (!File.Exists(avatarFile))
                     File.AppendAllText(avatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
 

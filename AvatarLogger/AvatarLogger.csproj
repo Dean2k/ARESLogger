@@ -44,6 +44,7 @@
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\..\ReModCE\3rdparty\ml\Managed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="Il2CppSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Il2CppSystem.Core">
       <HintPath>..\..\ReModCE\3rdparty\ml\Managed\Il2CppSystem.Core.dll</HintPath>
     </Reference>
@@ -92,6 +93,16 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\ReModCE\3rdparty\ml\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReModCE\3rdparty\ml\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>..\..\ReModCE\3rdparty\ml\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>..\..\ReModCE\3rdparty\ml\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
     <Reference Include="VRC.UI.Core">
       <HintPath>..\..\ReModCE\3rdparty\ml\Managed\VRC.UI.Core.dll</HintPath>

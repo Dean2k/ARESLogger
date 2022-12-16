@@ -1,12 +1,15 @@
 ﻿using ApolloCore.API.QM;
 using MelonLoader;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 using VRC;
 using VRC.Core;
 using VRC.UI;
@@ -16,7 +19,6 @@ namespace AvatarLogger
     internal static class Buttons
     {
         private static GameObject _socialMenuInstance;
-
         public static GameObject GetSocialMenuInstance()
         {
             if (_socialMenuInstance == null)
@@ -33,7 +35,7 @@ namespace AvatarLogger
         {
             MelonLogger.Msg("Ui initiating...");
 
-            var tabMenu = new QMTabMenu("Settings for the ARES Logger", "ARES Logger");
+            var tabMenu = new QMTabMenu("Settings for the ARES Logger", "ARES Logger", ButtonImage);
             var menu = new QMNestedButton(tabMenu, 1, 1, "Toggles", "ARES Menu Toggles", "ARES");
             var menu2 = new QMNestedButton(tabMenu, 1, 1, "Functions", "ARES Menu Functions", "ARES");
 
@@ -200,63 +202,6 @@ namespace AvatarLogger
             {
                 MelonLogger.Msg($"Invalid Avatar ID!");
             }
-        }
-        
-        public static void OpenGui()
-        {
-            try
-            {
-                foreach (Process proc in Process.GetProcessesByName("ARES"))
-                {
-                    proc.Kill();
-                    MelonLogger.Msg("Pre-existent ARES closed!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MelonLogger.Msg("Error closing ARES :\n" + ex.Message);
-            }
-            try
-            {
-                foreach (Process proc in Process.GetProcessesByName("Unity"))
-                {
-                    proc.Kill();
-                    MelonLogger.Msg("Pre-existent Unity closed!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MelonLogger.Msg("Error closing Unity :\n" + ex.Message);
-            }
-            try
-            {
-                foreach (Process proc in Process.GetProcessesByName("Unity Hub"))
-                {
-                    proc.Kill();
-                    MelonLogger.Msg("Pre-existent Unity Hub closed!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MelonLogger.Msg("Error closing Unity Hub :\n" + ex.Message);
-            }
-
-            try
-            {
-                foreach (Process proc in Process.GetProcessesByName("AssetRipperConsole"))
-                {
-                    proc.Kill();
-                    MelonLogger.Msg("Pre-existent AssetRipperConsole closed!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MelonLogger.Msg("Error closing AssetRipperConsole :\n" + ex.Message);
-            }
-            Directory.SetCurrentDirectory(MelonUtils.GameDirectory + "\\GUI\\");
-            Process.Start("ARES.exe");
-            Directory.SetCurrentDirectory(MelonUtils.GameDirectory);
-            MelonLogger.Msg("ARES GUI Launched!");
         }
     }
 }
