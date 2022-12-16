@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 //using System.Data.SQLite;
 //Melon mod information
 [assembly: MelonGame("VRChat")]
-[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "4.2.7", "By ShrekamusChrist, LargestBoi")]
+[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "5", "By ShrekamusChrist, LargestBoi (Retired)")]
 [assembly: MelonColor(ConsoleColor.Yellow)]
 
 namespace AvatarLogger
@@ -31,12 +31,7 @@ namespace AvatarLogger
         private readonly Dictionary<string, string> _upkeepFiles = new Dictionary<string, string>();
         public static string WorldInstanceID =>
             $"{RoomManager.field_Internal_Static_ApiWorld_0.id}:{RoomManager.field_Internal_Static_ApiWorldInstance_0.instanceId}";
-        public static Config Config => Helper.Config;
-        
-        public static void JoinInstance(string worldId, string instanceId)
-        {
-            new PortalInternal().Method_Private_Void_String_String_PDM_0(worldId, instanceId);
-        }
+        public static Config Config => Helper.Config;       
         
         public override void OnApplicationStart()
         {
@@ -52,10 +47,6 @@ namespace AvatarLogger
 
             Helper = new ConfigHelper<Config>($"{MelonUtils.UserDataDirectory}\\ARESConfig.json", true);
             
-            if (Config.AutoUpdate)
-                _upkeepFiles.Add($"{MelonHandler.PluginsDirectory}\\ARESPlugin.dll",
-                    "https://github.com/Dean2k/A.R.E.S/releases/latest/download/ARESPlugin.dll");
-            BaseFunctions.HandleQueue(_upkeepFiles);
             try
             {
                 MelonLogger.Msg("Applying patches...");

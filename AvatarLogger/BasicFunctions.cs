@@ -47,30 +47,6 @@ namespace AvatarLogger
             }
         }
 
-        public static void HandleQueue(Dictionary<string, string>  queue)
-        {
-            foreach (KeyValuePair<string, string> pair in queue)
-            {
-                string name = pair.Key.Substring(pair.Key.LastIndexOf('\\') + 1);
-                if (File.Exists(pair.Key))
-                {
-                    var oldHash = Sha256CheckSum(pair.Key);
-                    DownloadPlugin(pair);
-                    if (Sha256CheckSum(pair.Key) != oldHash)
-                    {
-                        MelonLogger.Msg($"Updated: {name}! Restarting VRC...");
-                        RestartVrChat(false);
-                    }
-                }
-                else
-                {
-                    MelonLogger.Msg($"{name} Not Found! Loading...");
-                    DownloadPlugin(pair);
-                    MelonLogger.Msg($"{name} Installed! Restarting VRC...");
-                    RestartVrChat(false);
-                }
-            }
-        }
         public static void DownloadPlugin(KeyValuePair<string, string> pair)
         {
             using (WebClient client = new WebClient())

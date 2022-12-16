@@ -1,7 +1,5 @@
-﻿using MelonLoader;
-using SerpentCore.Core.Managers;
-using SerpentCore.Core.UI.QuickMenu;
-using SerpentCore.Core.UI.Wings;
+﻿using ApolloCore.API.QM;
+using MelonLoader;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -35,97 +33,114 @@ namespace AvatarLogger
         {
             MelonLogger.Msg("Ui initiating...");
 
-            MelonLogger.Msg("ARES Favorites Go BRRR");
+            var tabMenu = new QMTabMenu("Settings for the ARES Logger", "ARES Logger");
+            var menu = new QMNestedButton(tabMenu, 1, 1, "Toggles", "ARES Menu Toggles", "ARES");
+            var menu2 = new QMNestedButton(tabMenu, 1, 1, "Functions", "ARES Menu Functions", "ARES");
 
-            ReMirroredWingMenu wingMenu = ReMirroredWingMenu.Create("ARES", "Open the ARES menu", ButtonImage);
-            ReMirroredWingMenu lsmp = wingMenu.AddSubMenu("Log Settings", "Allows you to configure your ARES settings!");
-            lsmp.AddToggle("Log Worlds", "Toggles the logging of worlds", delegate (bool b) { Main.Config.LogWorlds = b; }, Main.Config.LogWorlds);
-            lsmp.AddToggle("Log Avatars", "Toggles the logging of avatars", delegate (bool b) { Main.Config.LogAvatars = b; }, Main.Config.LogAvatars);
-            lsmp.AddToggle("Log Public Avatars", "Toggles the logging of public avatars", delegate (bool b) { Main.Config.LogPublicAvatars = b; }, Main.Config.LogPublicAvatars);
-            lsmp.AddToggle("Log Private Avatars", "Toggles the logging of private avatars", delegate (bool b) { Main.Config.LogPrivateAvatars = b; }, Main.Config.LogPrivateAvatars);
-            lsmp.AddToggle("Log Own Avatars", "Toggles the logging of own avatars", delegate (bool b) { Main.Config.LogOwnAvatars = b; }, Main.Config.LogOwnAvatars);
-            lsmp.AddToggle("Log Friends Avatars", "Toggles the ability to log avatars uploaded to your friends accounts!", delegate (bool b) { Main.Config.LogFriendsAvatars = b; }, Main.Config.LogFriendsAvatars);
-            lsmp.AddToggle("Log To Console", "Toggles the ability display logged avatars in console!", delegate (bool b) { Main.Config.LogToConsole = b; }, Main.Config.LogToConsole);
-            lsmp.AddToggle("Log Errors To Console", "Toggles the ability display why avatars weren't logged in console!", delegate (bool b) { Main.Config.ConsoleError = b; }, Main.Config.ConsoleError);
-
-            ReMirroredWingMenu fPage = wingMenu.AddSubMenu("Functions", "Use the other features within ARES");
-            fPage.AddButton("Open ARES GUI", "Opens the ARES GUI on your desktop!", delegate { OpenGui(); });
-            fPage.AddButton("Copy Instance ID", "Copies the current instance ID to your clipboard!", delegate { Clipboard.SetText(Main.WorldInstanceID); });
-            fPage.AddButton("Join Instance By ID", "Joins the instance currently within your clipboard!", JoinInstanceById);
-            fPage.AddButton("Wear Avatar ID", "Changes into avatar ID that is currently in clipboard!", ChangeAvatar);
-            fPage.AddButton("Show Logging Statistics", "Displays session statistics within the console", ShowSessionStats);
-
-            ReMirroredWingMenu otherToggles = wingMenu.AddSubMenu("Other", "Use the other features within ARES");
-            otherToggles.AddToggle("Stealth Mode", "Hides all in-game indicators that you are running ARES (requires restart!)", delegate (bool b) { Main.Config.Stealth = b; }, Main.Config.Stealth);
-            otherToggles.AddToggle("HWID Spoof", "Spoof your HWID incase you've been banned etc!", delegate (bool b) { Main.Config.HWIDSpoof = b; }, Main.Config.HWIDSpoof);
-            otherToggles.AddToggle("Auto Update", "Allow the plugin to auto update!", delegate (bool b) { Main.Config.AutoUpdate = b; }, Main.Config.AutoUpdate);
-            fPage.AddButton("Restart VRC", "Restarts VRChat!", delegate { RestartVrChat(false); });
-            fPage.AddButton("Restart VRC (Persistent)", "Restarts VRChat and re-joins the room you were in!", delegate { RestartVrChat(true); });
-
-            UiManager uiManager = new UiManager("ARES Logger", ButtonImage);
-
-            ReMenuPage lsmpt = null;
-            try
+            var worldButton = new QMToggleButton(menu, 1, 0, "Log Worlds", delegate
             {
-                lsmpt = uiManager.MainMenu.AddMenuPage("Logging Settings", "Allows you to configure your ARES settings!");
-            }
-            catch { }
-
-            lsmpt.AddToggle("Log Worlds", "Toggles the logging of worlds", delegate (bool b) { Main.Config.LogWorlds = b; }, Main.Config.LogWorlds);
-            lsmpt.AddToggle("Log Avatars", "Toggles the logging of avatars", delegate (bool b) { Main.Config.LogAvatars = b; }, Main.Config.LogAvatars);
-            lsmpt.AddToggle("Log Public Avatars", "Toggles the logging of public avatars", delegate (bool b) { Main.Config.LogPublicAvatars = b; }, Main.Config.LogPublicAvatars);
-            lsmpt.AddToggle("Log Private Avatars", "Toggles the logging of private avatars", delegate (bool b) { Main.Config.LogPrivateAvatars = b; }, Main.Config.LogPrivateAvatars);
-            lsmpt.AddToggle("Log Own Avatars", "Toggles the logging of own avatars", delegate (bool b) { Main.Config.LogOwnAvatars = b; }, Main.Config.LogOwnAvatars);
-            lsmpt.AddToggle("Log Friends Avatars", "Toggles the ability to log avatars uploaded to your friends accounts!", delegate (bool b) { Main.Config.LogFriendsAvatars = b; }, Main.Config.LogFriendsAvatars);
-            lsmpt.AddToggle("Log To Console", "Toggles the ability display logged avatars in console!", delegate (bool b) { Main.Config.LogToConsole = b; }, Main.Config.LogToConsole);
-            lsmpt.AddToggle("Log Errors To Console", "Toggles the ability display why avatars weren't logged in console!", delegate (bool b) { Main.Config.ConsoleError = b; }, Main.Config.ConsoleError);
-
-            ReMenuPage fPageT = null;
-            try
+                Main.Config.LogWorlds = true;
+            }, delegate
             {
-                fPageT = uiManager.MainMenu.AddMenuPage("ARES Functions", "Use the other features within ARES");
-            }
-            catch { }
+                Main.Config.LogWorlds = false;
+            }, "Toggles the logging of worlds");
 
-            fPageT.AddButton("Open ARES GUI", "Opens the ARES GUI on your desktop!", OpenGui);
-            fPageT.AddButton("Copy Instance ID", "Copies the current instance ID to your clipboard!", delegate { Clipboard.SetText(Main.WorldInstanceID); });
-            fPageT.AddButton("Join Instance By ID", "Joins the instance currently within your clipboard!", JoinInstanceById);
-            fPageT.AddButton("Wear Avatar ID", "Changes into avatar ID that is currently in clipboard!", ChangeAvatar);
-            fPageT.AddButton("Restart VRC", "Restarts VRChat!", delegate { RestartVrChat(false); });
-            fPageT.AddButton("Restart VRC (Persistent)", "Restarts VRChat and re-joins the room you were in!", delegate { RestartVrChat(true); });
-            fPageT.AddButton("Show Logging Statistics", "Displays session statistics within the console", ShowSessionStats);
-            fPageT.AddToggle("Custom Nameplates", "Shows Custom Nameplates (reload world to fully unload)", delegate (bool b) { Main.Config.CustomNameplates = b; CustomNamePlate(b); }, Main.Config.CustomNameplates);
-            fPageT.AddToggle("Stealth Mode", "Hides all in-game indicators that you are running ARES (Requires restart!)", delegate (bool b) { Main.Config.Stealth = b; RestartVrChat(true); }, Main.Config.Stealth);
-            fPageT.AddToggle("HWID Spoof", "Spoof your HWID incase you've been banned etc!", delegate (bool b) { Main.Config.HWIDSpoof = b; }, Main.Config.HWIDSpoof);
-            fPageT.AddToggle("Auto Update", "Allow the plugin to auto update!", delegate (bool b) { Main.Config.AutoUpdate = b; }, Main.Config.AutoUpdate);
+            var avatarButton = new QMToggleButton(menu, 2, 0, "Log Avatars", delegate
+            {
+                Main.Config.LogAvatars = true;
+            }, delegate
+            {
+                Main.Config.LogAvatars = false;
+            }, "Toggles the logging of avatars");
+
+            var avatarPublicButton = new QMToggleButton(menu, 3, 0, "Log Public Avatars", delegate
+            {
+                Main.Config.LogPublicAvatars = true;
+            }, delegate
+            {
+                Main.Config.LogPublicAvatars = false;
+            }, "Toggles the logging of public avatars");
+
+            var avatarPrivateButton = new QMToggleButton(menu, 4, 0, "Log Private Avatars", delegate
+            {
+                Main.Config.LogPrivateAvatars = true;
+            }, delegate
+            {
+                Main.Config.LogPrivateAvatars = false;
+            }, "Toggles the logging of private avatars");
+
+            var avatarOwnButton = new QMToggleButton(menu, 1, 1, "Log Private Avatars", delegate
+            {
+                Main.Config.LogOwnAvatars = true;
+            }, delegate
+            {
+                Main.Config.LogOwnAvatars = false;
+            }, "Toggles the logging of own avatars");
+
+            var avatarFriendsButton = new QMToggleButton(menu, 2, 1, "Log Friends Avatars", delegate
+            {
+                Main.Config.LogFriendsAvatars = true;
+            }, delegate
+            {
+                Main.Config.LogFriendsAvatars = false;
+            }, "Toggles the logging of own avatars");
+
+            var logConsoleButton = new QMToggleButton(menu, 3, 1, "Log Avatars to Console", delegate
+            {
+                Main.Config.LogToConsole = true;
+            }, delegate
+            {
+                Main.Config.LogToConsole = false;
+            }, "Toggles the logging to console");
+
+            var logConsoleErrorButton = new QMToggleButton(menu, 4, 1, "Log Errors to console", delegate
+            {
+                Main.Config.ConsoleError = true;
+            }, delegate
+            {
+                Main.Config.ConsoleError = false;
+            }, "Toggles the logging to console");
+
+            var worldIdButton = new QMSingleButton(menu2, 1, 0, "Copy Instance ID", delegate
+            {
+                Clipboard.SetText(Main.WorldInstanceID);
+            }, "Copies the current instance ID to your clipboard!");
+
+            var avatarChangeButton = new QMSingleButton(menu2, 2, 0, "Wear Avatar ID", delegate
+            {
+                ChangeAvatar();
+            }, "Changes into avatar ID that is currently in clipboard!");
+
+            var restartChangeButton = new QMSingleButton(menu2, 3, 0, "Show Logging Statistics", delegate
+            {
+                ShowSessionStats();
+            }, "Displays session statistics within the console");
+
+            var namePlatesButton = new QMToggleButton(menu, 1, 1, "Custom Nameplates", delegate
+            {
+                Main.Config.CustomNameplates = true; CustomNamePlate(true);
+            }, delegate
+            {
+                Main.Config.CustomNameplates = false; CustomNamePlate(false);
+            }, "Shows Custom Nameplates (reload world to fully unload)");
+
+            var hwidSpoofButton = new QMToggleButton(menu, 1, 1, "HWID Spoof", delegate
+            {
+                Main.Config.HWIDSpoof = true;
+            }, delegate
+            {
+                Main.Config.HWIDSpoof = false;
+            }, "Spoof your HWID incase you've been banned etc!");
+
+            var autoUpdateButton = new QMToggleButton(menu, 1, 1, "Auto Update", delegate
+            {
+                Main.Config.AutoUpdate = true;
+            }, delegate
+            {
+                Main.Config.AutoUpdate = false;
+            }, "Allow the plugin to auto update!");
+
             MelonLogger.Msg("Ui ready!");
-        }
-
-        //Restarts VRChat
-        public static void RestartVrChat(bool persistence)
-        {
-            new Thread(() =>
-            {
-                UnityEngine.Application.Quit();
-                Thread.Sleep(2500);
-                try
-                {
-                    string cl = Environment.CommandLine;
-                    if (cl.Contains("vrchat://launch"))
-                    {
-                        string launch = cl.Substring(cl.IndexOf("vrchat://launch"));
-                        cl = cl.Remove(cl.IndexOf("vrchat://launch"), launch.Contains(" ") ? launch.IndexOf(" ") : launch.Length);
-                    }
-                    if (persistence) { cl = $"{cl} vrchat://launch?id={RoomManager.field_Internal_Static_ApiWorld_0.id}:{RoomManager.field_Internal_Static_ApiWorldInstance_0.instanceId}"; }
-                    Process.Start($"{Environment.CurrentDirectory}\\VRChat.exe", cl);
-                }
-                catch (Exception) { new Exception(); }
-                Process.GetCurrentProcess().Kill();
-            })
-            {
-                IsBackground = true,
-                Name = "RestartVRC Thread"
-            }.Start();
         }
 
         public static void CustomNamePlate(bool enable)
@@ -165,20 +180,6 @@ namespace AvatarLogger
             MelonLogger.Msg($"Logged Private Avatars: {Main.Pri}");
             MelonLogger.Msg($"Logged Public Avatars: {Main.Pub}");
             MelonLogger.Msg("-------------------------------------");
-        }
-        
-        private static void JoinInstanceById()
-        {
-            string[] ID = Clipboard.GetText().Split(':');
-            if (Clipboard.GetText().Contains("wrld"))
-            {
-                Main.JoinInstance(ID[0], ID[1]);
-                MelonLogger.Msg($"Instance joined: {Clipboard.GetText()}");
-            }
-            else
-            {
-                MelonLogger.Msg($"Invalid instance ID!");
-            }
         }
         
         public static void ChangeAvatar()

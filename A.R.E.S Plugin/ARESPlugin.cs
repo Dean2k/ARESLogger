@@ -5,7 +5,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-[assembly: MelonInfo(typeof(ARESPlugin.Updater), "ARES Manager", "1.5", "ShrekamusChrist, LargestBoi (Retired)")]
+[assembly: MelonInfo(typeof(ARESPlugin.Updater), "ARES Manager", "2.0", "ShrekamusChrist, LargestBoi (Retired)")]
 [assembly: MelonColor(ConsoleColor.Yellow)]
 [assembly: MelonGame("VRChat", "VRChat")]
 
@@ -30,9 +30,8 @@ namespace ARESPlugin
             
             if (!skipUpdates)
             {
-                _files.Add($"{MelonHandler.ModsDirectory}\\AvatarLogger.dll", "https://github.com/Dean2k/A.R.E.S/releases/latest/download/AvatarLogger.dll");
-                _files.Add($"{MelonUtils.GameDirectory}\\SerpentCore.Core.dll", "https://github.com/Dean2k/Serpent/releases/latest/download/SerpentCore.Core.dll");
-                _files.Add($"{MelonUtils.GameDirectory}\\ARESLogo.png", "https://github.com/Dean2k/A.R.E.S/releases/latest/download/ARESLogo.png");
+                _files.Add($"{MelonHandler.ModsDirectory}\\AvatarLogger.dll", "https://github.com/Dean2k/ARESLogger/releases/latest/download/AvatarLogger.dll");
+                _files.Add($"{MelonUtils.GameDirectory}\\ARESLogo.png", "https://github.com/Dean2k/ARESLogger/releases/latest/download/ARESLogo.png");
 
                 foreach (KeyValuePair<string, string> pair in _files)
                 {
