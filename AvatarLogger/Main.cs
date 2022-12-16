@@ -31,8 +31,8 @@ namespace AvatarLogger
         private readonly Dictionary<string, string> _upkeepFiles = new Dictionary<string, string>();
         public static string WorldInstanceID =>
             $"{RoomManager.field_Internal_Static_ApiWorld_0.id}:{RoomManager.field_Internal_Static_ApiWorldInstance_0.instanceId}";
-        public static Config Config => Helper.Config;       
-        
+        public static Config Config => Helper.Config;
+
         public override void OnApplicationStart()
         {
             string[] arguments = Environment.GetCommandLineArgs();
@@ -46,7 +46,7 @@ namespace AvatarLogger
             }
 
             Helper = new ConfigHelper<Config>($"{MelonUtils.UserDataDirectory}\\ARESConfig.json", true);
-            
+
             try
             {
                 MelonLogger.Msg("Applying patches...");
@@ -78,7 +78,7 @@ namespace AvatarLogger
             {
                 MelonLogger.Msg("Failed patches!" + ex.Message);
             }
-            
+
             if (!Config.Stealth)
             {
                 MelonCoroutines.Start(FindUi());
@@ -114,7 +114,7 @@ namespace AvatarLogger
             }
         }
 
-        
+
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
             if (buildIndex == -1)
@@ -123,7 +123,7 @@ namespace AvatarLogger
                 MelonCoroutines.Start(LogWorlds());
             }
         }
-        
+
         internal static IEnumerator OnNetworkManagerInit()
         {
             while (NetworkManager.field_Internal_Static_NetworkManager_0 == null)
@@ -139,14 +139,14 @@ namespace AvatarLogger
                         }));
                 })();
         }
-        
+
         internal static IEnumerator LogWorlds()
         {
             while (RoomManager.field_Internal_Static_ApiWorld_0 == null) yield return new WaitForEndOfFrame();
             var apiWorld = RoomManager.field_Internal_Static_ApiWorld_0;
             ExecuteLogWorld(apiWorld);
         }
-        
+
         private static IEnumerator FindUi()
         {
             while (UIManager.prop_UIManager_0 == null) yield return null;

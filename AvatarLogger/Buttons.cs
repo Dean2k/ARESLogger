@@ -45,7 +45,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogWorlds = false;
-            }, "Toggles the logging of worlds");
+            }, "Toggles the logging of worlds", Main.Config.LogWorlds);
 
             var avatarButton = new QMToggleButton(menu, 2, 0, "Log Avatars", delegate
             {
@@ -53,7 +53,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogAvatars = false;
-            }, "Toggles the logging of avatars");
+            }, "Toggles the logging of avatars", Main.Config.LogAvatars);
 
             var avatarPublicButton = new QMToggleButton(menu, 3, 0, "Log Public Avatars", delegate
             {
@@ -61,7 +61,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogPublicAvatars = false;
-            }, "Toggles the logging of public avatars");
+            }, "Toggles the logging of public avatars", Main.Config.LogPublicAvatars    );
 
             var avatarPrivateButton = new QMToggleButton(menu, 4, 0, "Log Private Avatars", delegate
             {
@@ -69,7 +69,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogPrivateAvatars = false;
-            }, "Toggles the logging of private avatars");
+            }, "Toggles the logging of private avatars", Main.Config.LogPrivateAvatars  );
 
             var avatarOwnButton = new QMToggleButton(menu, 1, 1, "Log Private Avatars", delegate
             {
@@ -77,7 +77,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogOwnAvatars = false;
-            }, "Toggles the logging of own avatars");
+            }, "Toggles the logging of own avatars", Main.Config.LogOwnAvatars);
 
             var avatarFriendsButton = new QMToggleButton(menu, 2, 1, "Log Friends Avatars", delegate
             {
@@ -85,7 +85,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogFriendsAvatars = false;
-            }, "Toggles the logging of own avatars");
+            }, "Toggles the logging of own avatars", Main.Config.LogFriendsAvatars);
 
             var logConsoleButton = new QMToggleButton(menu, 3, 1, "Log Avatars to Console", delegate
             {
@@ -93,7 +93,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogToConsole = false;
-            }, "Toggles the logging to console");
+            }, "Toggles the logging to console", Main.Config.LogToConsole);
 
             var logConsoleErrorButton = new QMToggleButton(menu, 4, 1, "Log Errors to console", delegate
             {
@@ -101,7 +101,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.ConsoleError = false;
-            }, "Toggles the logging to console");
+            }, "Toggles the logging to console", Main.Config.ConsoleError);
 
             var worldIdButton = new QMSingleButton(menu2, 1, 0, "Copy Instance ID", delegate
             {
@@ -132,7 +132,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.HWIDSpoof = false;
-            }, "Spoof your HWID incase you've been banned etc!");
+            }, "Spoof your HWID incase you've been banned etc!", Main.Config.HWIDSpoof);
 
             var autoUpdateButton = new QMToggleButton(menu, 1, 1, "Auto Update", delegate
             {
@@ -140,7 +140,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.AutoUpdate = false;
-            }, "Allow the plugin to auto update!");
+            }, "Allow the plugin to auto update!", Main.Config.AutoUpdate);
 
             MelonLogger.Msg("Ui ready!");
         }

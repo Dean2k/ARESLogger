@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Text;
+using AvatarLogger.API;
 using MelonLoader;
 using VRC;
 using VRC.Core;
@@ -23,7 +24,8 @@ namespace AvatarLogger
         public static void ExecuteLog(Player player, bool aviChange = false)
         {
             if (player == null) return;
-            if (player.prop_ApiAvatar_0 == null) return;
+            if (player.prop_ApiAvatar_0 == null) return;            
+           
             ApiAvatar apiAvatar = player.prop_ApiAvatar_0;
             if (!Main.Config.LogAvatars) return;
             if (!Main.Config.LogPublicAvatars)
@@ -62,14 +64,14 @@ namespace AvatarLogger
                             $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
                     return;
                 }
-
+            ARES.AddAvatar(player.prop_VRCPlayer_0.field_Private_ApiAvatar_0, player);
             var AvatarFile = "Log.txt";
             var AvatarFileIds = "LogIds.txt";
             if (!File.Exists(AvatarFile))
-                File.AppendAllText(AvatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+                File.AppendAllText(AvatarFile, "Mod By ShrekamusChrist, LargestBoi (Retired)\n");
 
             if (!File.Exists(AvatarFileIds))
-                File.AppendAllText(AvatarFileIds, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+                File.AppendAllText(AvatarFileIds, "Mod By ShrekamusChrist, LargestBoi (Retired)\n");
             if (!HasAvatarId(AvatarFileIds, apiAvatar.id))
             {
                 if (Main.Config.LogToConsole)
@@ -140,10 +142,10 @@ namespace AvatarLogger
                 var avatarFile = "LogWorld.txt";
                 var avatarFileIds = "LogWorldIds.txt";
                 if (!File.Exists(avatarFile))
-                    File.AppendAllText(avatarFile, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+                    File.AppendAllText(avatarFile, "Mod By ShrekamusChrist, LargestBoi (Retired)\n");
 
                 if (!File.Exists(avatarFileIds))
-                    File.AppendAllText(avatarFileIds, "Mod By ShrekamusChrist, LargestBoi & Yui\n");
+                    File.AppendAllText(avatarFileIds, "Mod By ShrekamusChrist, LargestBoi (Retired)\n");
                 if (!HasAvatarId(avatarFileIds, worldTable.id))
                 {
                     File.AppendAllText(avatarFileIds, worldTable.id + "\n");
