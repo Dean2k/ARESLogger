@@ -36,8 +36,8 @@ namespace AvatarLogger
             MelonLogger.Msg("Ui initiating...");
 
             var tabMenu = new QMTabMenu("Settings for the ARES Logger", "ARES Logger", ButtonImage);
-            var menu = new QMNestedButton(tabMenu, 1, 1, "Toggles", "ARES Menu Toggles", "ARES");
-            var menu2 = new QMNestedButton(tabMenu, 1, 1, "Functions", "ARES Menu Functions", "ARES");
+            var menu = new QMNestedButton(tabMenu, 1, 0, "Toggles", "ARES Menu Toggles", "ARES");
+            var menu2 = new QMNestedButton(tabMenu, 2, 0, "Functions", "ARES Menu Functions", "ARES");
 
             var worldButton = new QMToggleButton(menu, 1, 0, "Log Worlds", delegate
             {
@@ -118,29 +118,21 @@ namespace AvatarLogger
                 ShowSessionStats();
             }, "Displays session statistics within the console");
 
-            var namePlatesButton = new QMToggleButton(menu, 1, 1, "Custom Nameplates", delegate
+            var namePlatesButton = new QMToggleButton(menu2, 1, 1, "Custom Nameplates", delegate
             {
                 Main.Config.CustomNameplates = true; CustomNamePlate(true);
             }, delegate
             {
                 Main.Config.CustomNameplates = false; CustomNamePlate(false);
-            }, "Shows Custom Nameplates (reload world to fully unload)");
+            }, "Shows Custom Nameplates (reload world to fully unload)", Main.Config.CustomNameplates);
 
-            var hwidSpoofButton = new QMToggleButton(menu, 1, 1, "HWID Spoof", delegate
+            var hwidSpoofButton = new QMToggleButton(menu2, 2, 1, "HWID Spoof", delegate
             {
                 Main.Config.HWIDSpoof = true;
             }, delegate
             {
                 Main.Config.HWIDSpoof = false;
             }, "Spoof your HWID incase you've been banned etc!", Main.Config.HWIDSpoof);
-
-            var autoUpdateButton = new QMToggleButton(menu, 1, 1, "Auto Update", delegate
-            {
-                Main.Config.AutoUpdate = true;
-            }, delegate
-            {
-                Main.Config.AutoUpdate = false;
-            }, "Allow the plugin to auto update!", Main.Config.AutoUpdate);
 
             MelonLogger.Msg("Ui ready!");
         }
@@ -154,7 +146,7 @@ namespace AvatarLogger
                     foreach (Player player in UnityEngine.Object.FindObjectsOfType<Player>())
                     {
 
-                        CustomNameplate nameplate = player.transform.Find("Player Nameplate/Canvas/Nameplate").gameObject.AddComponent<AvatarLogger.CustomNameplate>();
+                        CustomNameplate nameplate = player._vrcplayer.field_Public_PlayerNameplate_0.gameObject.AddComponent<AvatarLogger.CustomNameplate>();
                         nameplate.Player = player;
 
                     }
@@ -165,7 +157,7 @@ namespace AvatarLogger
             {
                 foreach (Player player in UnityEngine.Object.FindObjectsOfType<Player>())
                 {
-                    CustomNameplate disabler = player.transform.Find("Player Nameplate/Canvas/Nameplate").gameObject.GetComponent<AvatarLogger.CustomNameplate>();
+                    CustomNameplate disabler = VRCApplication.prop_VRCApplication_0.gameObject.GetComponent<AvatarLogger.CustomNameplate>();
                     disabler.Dispose();
                 }
             }

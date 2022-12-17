@@ -108,7 +108,7 @@ namespace AvatarLogger
         {
             if (Config.CustomNameplates)
             {
-                var nameplate = player.transform.Find("Player Nameplate/Canvas/Nameplate").gameObject
+                var nameplate = VRCApplication.prop_VRCApplication_0.gameObject
                     .AddComponent<CustomNameplate>();
                 nameplate.Player = player;
             }
@@ -151,7 +151,6 @@ namespace AvatarLogger
         {
             while (UIManager.prop_UIManager_0 == null) yield return null;
             while (Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>() == null) yield return null;
-            while (GameObject.Find("UserInterface/Canvas_QuickMenu(Clone)") == null) yield return null;
             OnUiManagerInit();
         }
     }
