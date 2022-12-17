@@ -50,11 +50,11 @@ namespace AvatarLogger
             try
             {
                 MelonLogger.Msg("Applying patches...");
-                if (Config.HWIDSpoof)
-                {
-                    Patches.HWIDPatch();
-                    MelonLogger.Msg("HWID patched");
-                }
+                //if (Config.HWIDSpoof)
+                //{
+                //    Patches.HWIDPatch();
+                //    MelonLogger.Msg("HWID patched");
+                //}
 
                 Patches.AllowAvatarCopyingPatch();
                 MelonLogger.Msg("Avatar cloning patched, force clone enabled!");
