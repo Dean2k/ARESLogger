@@ -71,7 +71,7 @@ namespace AvatarLogger
                 Main.Config.LogPrivateAvatars = false;
             }, "Toggles the logging of private avatars", Main.Config.LogPrivateAvatars  );
 
-            var avatarOwnButton = new QMToggleButton(menu, 1, 1, "Log Private Avatars", delegate
+            var avatarOwnButton = new QMToggleButton(menu, 1, 1, "Log Own Avatars", delegate
             {
                 Main.Config.LogOwnAvatars = true;
             }, delegate
@@ -85,7 +85,7 @@ namespace AvatarLogger
             }, delegate
             {
                 Main.Config.LogFriendsAvatars = false;
-            }, "Toggles the logging of own avatars", Main.Config.LogFriendsAvatars);
+            }, "Toggles the logging of friends avatars", Main.Config.LogFriendsAvatars);
 
             var logConsoleButton = new QMToggleButton(menu, 3, 1, "Log Avatars to Console", delegate
             {
