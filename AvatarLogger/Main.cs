@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 //using System.Data.SQLite;
 //Melon mod information
 [assembly: MelonGame("VRChat")]
-[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "5", "By ShrekamusChrist, LargestBoi (Retired)")]
+[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "5.0.1", "By ShrekamusChrist, LargestBoi (Retired)")]
 [assembly: MelonColor(ConsoleColor.Yellow)]
 
 namespace AvatarLogger
