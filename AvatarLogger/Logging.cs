@@ -19,13 +19,15 @@ namespace AvatarLogger
             while (RoomManager.field_Internal_Static_ApiWorld_0 == null) yield return null;
             string[] pals = APIUser.CurrentUser.friendIDs.ToArray();
             foreach (var pal in pals) FriendIDs += $"{pal},";
+
+           
         }
 
         public static void ExecuteLog(Player player, bool aviChange = false)
         {
             if (player == null) return;
-            if (player.prop_ApiAvatar_0 == null) return;            
-           
+            if (player.prop_ApiAvatar_0 == null) return;
+
             ApiAvatar apiAvatar = player.prop_ApiAvatar_0;
             if (!Main.Config.LogAvatars) return;
             if (!Main.Config.LogPublicAvatars)
@@ -36,7 +38,6 @@ namespace AvatarLogger
                             $"Avatar {apiAvatar.name} was not logged, you have log public avatars disabled!");
                     return;
                 }
-
             if (!Main.Config.LogPrivateAvatars)
                 if (apiAvatar.releaseStatus == "private")
                 {
@@ -45,7 +46,6 @@ namespace AvatarLogger
                             $"Avatar {apiAvatar.name} was not logged, you have log private avatars disabled!");
                     return;
                 }
-
             if (!Main.Config.LogOwnAvatars)
                 if (APIUser.CurrentUser.id == apiAvatar.authorId)
                     if (MyLastAvatar != apiAvatar.id)
@@ -55,14 +55,16 @@ namespace AvatarLogger
                                 $"Your avatar {apiAvatar.name} was not logged, you have log own avatars disabled!");
                         return;
                     }
-
             if (!Main.Config.LogFriendsAvatars)
-                if (FriendIDs.Contains(apiAvatar.authorId))
+                if (FriendIDs != null)
                 {
-                    if (Main.Config.ConsoleError && !aviChange)
-                        MelonLogger.Msg(
-                            $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
-                    return;
+                    if (FriendIDs.Contains(apiAvatar.authorId))
+                    {
+                        if (Main.Config.ConsoleError && !aviChange)
+                            MelonLogger.Msg(
+                                $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
+                        return;
+                    }
                 }
             ARES.AddAvatar(player.prop_VRCPlayer_0.field_Private_ApiAvatar_0, player);
             var AvatarFile = "Log.txt";
@@ -123,6 +125,7 @@ namespace AvatarLogger
                     MelonLogger.Msg($"Logged: {player.prop_APIUser_0.displayName}'s avatar ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
                 File.AppendAllText(AvatarFile, "\n\n");
             }
+
         }
 
         public static bool HasAvatarId(string avatarFile, string avatarId)

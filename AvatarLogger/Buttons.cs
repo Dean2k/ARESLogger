@@ -108,10 +108,10 @@ namespace AvatarLogger
                 Clipboard.SetText(Main.WorldInstanceID);
             }, "Copies the current instance ID to your clipboard!");
 
-            var avatarChangeButton = new QMSingleButton(menu2, 2, 0, "Wear Avatar ID", delegate
-            {
-                ChangeAvatar();
-            }, "Changes into avatar ID that is currently in clipboard!");
+            //var avatarChangeButton = new QMSingleButton(menu2, 2, 0, "Wear Avatar ID", delegate
+            //{
+            //    ChangeAvatar();
+            //}, "Changes into avatar ID that is currently in clipboard!");
 
             var restartChangeButton = new QMSingleButton(menu2, 3, 0, "Show Logging Statistics", delegate
             {
@@ -176,24 +176,25 @@ namespace AvatarLogger
             MelonLogger.Msg("-------------------------------------");
         }
         
-        public static void ChangeAvatar()
-        {
-            Regex Avatar = new Regex("avtr_[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}");
-            if (Avatar.IsMatch(Clipboard.GetText()))
-            {
-                new ApiAvatar { id = Clipboard.GetText() }.Get(new Action<ApiContainer>(x =>
-                {
-                    GetSocialMenuInstance().transform.Find("Avatar").GetComponent<PageAvatar>().field_Public_SimpleAvatarPedestal_0.field_Internal_ApiAvatar_0 = x.Model.Cast<ApiAvatar>();
-                    GetSocialMenuInstance().transform.Find("Avatar").GetComponent<PageAvatar>().ChangeToSelectedAvatar();
-                }), new Action<ApiContainer>(x =>
-                {
-                    MelonLogger.Msg($"Failed to change to avatar: {Clipboard.GetText()} | Error Message: {x.Error}");
-                }));
-            }
-            else
-            {
-                MelonLogger.Msg($"Invalid Avatar ID!");
-            }
-        }
+        //public static void ChangeAvatar()
+        //{
+        //    Regex Avatar = new Regex("avtr_[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}");
+        //    if (Avatar.IsMatch(Clipboard.GetText()))
+        //    {
+        //        new ApiAvatar { id = Clipboard.GetText() }.Get(new Action<ApiContainer>(x =>
+        //        {
+        //            GetSocialMenuInstance().transform.Find("Avatar").GetComponent<PageAvatar>().field_Public_SimpleAvatarPedestal_0.field_Internal_ApiAvatar_0 = x.Model.Cast<ApiAvatar>();
+        //            GetSocialMenuInstance().transform.Find("Avatar").GetComponent<PageAvatar>().field_Public_SimpleAvatarPedestal_0.field_Internal_ApiAvatar_0 = x.Model.Cast<ApiAvatar>();
+        //            GetSocialMenuInstance().transform.Find("Avatar").GetComponent<PageAvatar>().ChangeToSelectedAvatar();
+        //        }), new Action<ApiContainer>(x =>
+        //        {
+        //            MelonLogger.Msg($"Failed to change to avatar: {Clipboard.GetText()} | Error Message: {x.Error}");
+        //        }));
+        //    }
+        //    else
+        //    {
+        //        MelonLogger.Msg($"Invalid Avatar ID!");
+        //    }
+        //}
     }
 }
