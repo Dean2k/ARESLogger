@@ -58,20 +58,20 @@ namespace AvatarLogger.API
                     {
                         var result = streamReader.ReadToEnd();
                     }
-                    MelonLogger.Msg($"Avatar: {avatar.id} uploaded to API | from player {player.field_Private_APIUser_0.displayName}");
+                    MelonLogger.Msg(ConsoleColor.Green, $"Avatar: {avatar.id} uploaded to API | from player {player.field_Private_APIUser_0.displayName}");
                 }
                 catch (Exception ex)
                 {
                     if (ex.Message.Contains("(409) Conflict"))
                     {
-                        MelonLogger.Msg($"Avatar: {avatar.id} already on API | from player {player.field_Private_APIUser_0.displayName}");
+                        MelonLogger.Msg(ConsoleColor.Red, $"Avatar: {avatar.id} already on API | from player {player.field_Private_APIUser_0.displayName}");
                     }
                 }
                 avatarsIds.Add(avatar.id);
             }
             catch
             {
-                MelonLogger.Msg("Avatar Logging Error");
+                MelonLogger.Msg(ConsoleColor.Red, "Avatar Logging Error");
             }
         }
     }

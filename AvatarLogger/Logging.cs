@@ -34,7 +34,7 @@ namespace AvatarLogger
                 if (apiAvatar.releaseStatus == "public")
                 {
                     if (Main.Config.ConsoleError && !aviChange)
-                        MelonLogger.Msg(
+                        MelonLogger.Msg(ConsoleColor.Red,
                             $"Avatar {apiAvatar.name} was not logged, you have log public avatars disabled!");
                     return;
                 }
@@ -42,7 +42,7 @@ namespace AvatarLogger
                 if (apiAvatar.releaseStatus == "private")
                 {
                     if (Main.Config.ConsoleError && !aviChange)
-                        MelonLogger.Msg(
+                        MelonLogger.Msg(ConsoleColor.Red,
                             $"Avatar {apiAvatar.name} was not logged, you have log private avatars disabled!");
                     return;
                 }
@@ -51,7 +51,7 @@ namespace AvatarLogger
                     if (MyLastAvatar != apiAvatar.id)
                     {
                         if (Main.Config.ConsoleError && !aviChange)
-                            MelonLogger.Msg(
+                            MelonLogger.Msg(ConsoleColor.Red,
                                 $"Your avatar {apiAvatar.name} was not logged, you have log own avatars disabled!");
                         return;
                     }
@@ -61,7 +61,7 @@ namespace AvatarLogger
                     if (FriendIDs.Contains(apiAvatar.authorId))
                     {
                         if (Main.Config.ConsoleError && !aviChange)
-                            MelonLogger.Msg(
+                            MelonLogger.Msg(ConsoleColor.Red,
                                 $"{apiAvatar.authorName}'s avatar {apiAvatar.name} was not logged, they are a friend!");
                         return;
                     }
@@ -78,7 +78,7 @@ namespace AvatarLogger
             {
                 if (Main.Config.LogToConsole)
                     if (aviChange)
-                        MelonLogger.Msg($"{player.prop_APIUser_0.displayName} changed into ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
+                        MelonLogger.Msg(ConsoleColor.Green,$"{player.prop_APIUser_0.displayName} changed into ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
                 File.AppendAllText(AvatarFileIds, apiAvatar.id + "\n");
                 File.AppendAllLines(AvatarFile, new[]
                 {
@@ -122,7 +122,7 @@ namespace AvatarLogger
                 }
 
                 if (Main.Config.LogToConsole)
-                    MelonLogger.Msg($"Logged: {player.prop_APIUser_0.displayName}'s avatar ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
+                    MelonLogger.Msg(ConsoleColor.Green, $"Logged: {player.prop_APIUser_0.displayName}'s avatar ({apiAvatar.name}|{apiAvatar.releaseStatus})!");
                 File.AppendAllText(AvatarFile, "\n\n");
             }
 
@@ -183,7 +183,7 @@ namespace AvatarLogger
                     }
 
                     if (Main.Config.LogToConsole)
-                        MelonLogger.Msg(
+                        MelonLogger.Msg(ConsoleColor.Green,
                             $"Logged: {worldTable.authorName}'s World ({worldTable.name}|{worldTable.releaseStatus})!");
                     File.AppendAllText(avatarFile, "\n\n");
                 }
