@@ -156,15 +156,6 @@ internal static class Buttons
                 CustomNamePlate(false);
             }, "Shows Custom Nameplates (reload world to fully unload)", Main.Config.CustomNameplates);
 
-            var hwidSpoofButton = new QMToggleButton(menu2, 2, 1, "HWID Spoof", delegate
-            {
-                Main.Config.HWIDSpoof = true;
-            }
-            , delegate
-            {
-                Main.Config.HWIDSpoof = false;
-            }, "Spoof your HWID incase you've been banned etc!", Main.Config.HWIDSpoof);
-
             MelonLogger.Msg("Ui ready!");
     }
 

@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 //using System.Data.SQLite;
 //Melon mod information
 [assembly: MelonGame("VRChat")]
-[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "5.0.1", "By ShrekamusChrist, LargestBoi (Retired)")]
+[assembly: MelonInfo(typeof(Main), "A.R.E.S Logger", "5.0.2", "By ShrekamusChrist, Unixian, LargestBoi (Retired)")]
 [assembly: MelonColor(ConsoleColor.Yellow)]
 
 namespace AvatarLogger
@@ -35,26 +35,11 @@ namespace AvatarLogger
 
         public override void OnApplicationStart()
         {
-            string[] arguments = Environment.GetCommandLineArgs();
-            foreach (string item in arguments)
-            {
-                if (item.ToLower() == "DaddyUwU")
-                {
-                    MelonLogger.Msg("Skipping loading of Avatar logger (Application bot)");
-                    return;
-                }
-            }
-
             Helper = new ConfigHelper<Config>($"{MelonUtils.UserDataDirectory}\\ARESConfig.json", true);
 
             try
             {
                 MelonLogger.Msg("Applying patches...");
-                //if (Config.HWIDSpoof)
-                //{
-                //    Patches.HWIDPatch();
-                //    MelonLogger.Msg("HWID patched");
-                //}
 
                 Patches.AllowAvatarCopyingPatch();
                 MelonLogger.Msg("Avatar cloning patched, force clone enabled!");

@@ -79,27 +79,21 @@ namespace AvatarLogger
             switch (eventCode)
             {
                 case 42:
-                    return LogAvatar();
+                    return LogAvatar(__0.sender);
                 case 223:
-                    return LogAvatar();
+                    return LogAvatar(__0.sender);
                 default:
                     return true;
             }
         }
 
 
-        private static bool LogAvatar()
+        private static bool LogAvatar(int sender)
         {
-            try
+            if (sender != -1)
             {
-                foreach (VRCPlayer player in Object.FindObjectsOfType<VRCPlayer>())
-                {
-                    Logging.ExecuteLog(player._player, true);
-                }
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Msg($"Error: \n{e}");
+                VRCPlayer player = Object.FindObjectsOfType<VRCPlayer>().FirstOrDefault(x => x._playerNet.prop_Int32_1 == sender);
+                Logging.ExecuteLog(player._player, true);
             }
 
             return true;
